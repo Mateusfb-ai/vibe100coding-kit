@@ -1,11 +1,5 @@
 # Roteamento de especialistas
 
-> Origem: `docs/tools/02-subagent-orchestration.md` do
-> [vibe-coding-toolkit](https://github.com/soumatheusgomes/vibe-coding-toolkit).
-> A tabela abaixo NÃO é o elenco genérico daquele documento — os nomes dali
-> (`backend-specialist`, `frontend-specialist`, `database-architect`…) **não
-> existem neste ambiente**, e despachar um nome inexistente falha. Aqui estão
-> os agentes que de fato respondem, medidos em produção.
 
 ## Antes de despachar qualquer coisa
 

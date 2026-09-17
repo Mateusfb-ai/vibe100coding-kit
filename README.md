@@ -1,8 +1,8 @@
 # vibe100coding-kit
 
-**O workflow completo para programar com agentes (Claude Code) sem perder o controle: hooks que impõem o ciclo de tarefa, gates que provam que provam, ondas paralelas de subagentes, integração com rebase antes de validar, e a lei do aprendizado.** Extraído de produção (um SaaS com ~480 gates e um estúdio de conteúdo com 4 produtos), evoluído sobre o [vibe-coding-toolkit](https://github.com/soumatheusgomes/vibe-coding-toolkit).
+**O workflow completo para programar com agentes (Claude Code) sem perder o controle: hooks que impõem o ciclo de tarefa, gates que provam que provam, ondas paralelas de subagentes, integração com rebase antes de validar, e a lei do aprendizado.**
 
-> **EN:** A production-extracted workflow for coding with agents: 4 Claude Code hooks that enforce a task cycle (no edits on `main`, no stacking on finished tasks, "integrate me" reminders), a parallel gate runner plus a **meta-gate** that injects the real defect to prove every gate turns red, parallel subagent waves with disjoint file sets, rebase-then-validate integration with a per-machine FIFO queue, and templates for `CLAUDE.md`, decisions and learnings. Docs are in Portuguese; the code and hooks are language-agnostic. MIT.
+> **EN:** A workflow for coding with agents: 4 Claude Code hooks that enforce a task cycle (no edits on `main`, no stacking on finished tasks, "integrate me" reminders), a parallel gate runner plus a **meta-gate** that injects the real defect to prove every gate turns red, parallel subagent waves with disjoint file sets, rebase-then-validate integration with a per-machine FIFO queue, and templates for `CLAUDE.md`, decisions and learnings. Docs are in Portuguese; the code and hooks are language-agnostic. MIT.
 
 <p align="center">
   <a href="#instalação-passo-a-passo"><img src="https://img.shields.io/badge/npx_github%3Aspyko--app%2Fvibe100coding--kit-init-0a84ff?style=for-the-badge&logo=npm&logoColor=white" alt="npx github:spyko-app/vibe100coding-kit init"></a>
@@ -10,15 +10,46 @@
   <a href="https://github.com/spyko-app/vibe100coding-kit/archive/refs/heads/main.zip"><img src="https://img.shields.io/badge/Download-.zip-333?style=for-the-badge&logo=github&logoColor=white" alt="Download zip"></a>
 </p>
 
-## O fluxo em uma tela
+## 🗺️ O fluxo completo
 
-```
-abrir sessão ─► sessao/tarefa ─► brainstorm → spec ─► implementar (TDD, ondas) ─► gates + meta-gate ─► commit ─► push
-                                                                                                          │
-      registrar (learnings/) ◄─ tarefa concluir ◄─ integrar (fila → rebase → gates na base nova → push) ◄─ dono autoriza
+Da sessão aberta ao trabalho integrado. O caminho principal é a linha do tempo da esquerda para a direita; os círculos são camadas que ficam ativas o tempo todo e moldam cada etapa por baixo: os **hooks** recusam o que sai do trilho, os **gates** protegem todo commit, o **grafo** orienta antes de codar e a **memória** entra nas duas pontas.
+
+```mermaid
+flowchart LR
+    Sessao["🧭 Sessão<br/>worktree + tarefa aberta"]
+    Brain["💡 Brainstorm"]
+    Spec["📝 Spec<br/>'pronto' checável"]
+    Impl["🛠️ Implementar<br/>TDD, ondas paralelas"]
+    Gates["🚦 Gates + meta-gate"]
+    Commit["📦 Commit + push<br/>da branch"]
+    Dono["🙋 Dono autoriza"]
+    Integrar["🔀 Integrar<br/>fila → rebase → gates → push"]
+    Fechar["✅ Concluir + registrar"]
+
+    Sessao --> Brain --> Spec --> Impl --> Gates --> Commit --> Dono --> Integrar --> Fechar
+
+    subgraph SP["⭐ Superpowers"]
+        Brain
+        Spec
+        Impl
+    end
+
+    Hooks(("🪝 Hooks<br/>session · skill · exige-tarefa · fim"))
+    Grafo(("🕸️ Graphify<br/>+ Context7"))
+    Regras(("📐 Regras<br/>roteamento · ondas"))
+    Memoria(("🧠 Memória<br/>CLAUDE.md · learnings/"))
+    Leis(("⚖️ As quatro leis"))
+
+    Hooks -. recusa edição fora de tarefa .-> Sessao
+    Hooks -. lembra de integrar .-> Commit
+    Grafo -. orienta antes de codar .-> Brain
+    Regras -. quem despacha e como .-> Impl
+    Leis -. meça, use a decisão, escreva, prove .-> Gates
+    Memoria -. contexto ao começar .-> Sessao
+    Fechar -. registra o aprendizado .-> Memoria
 ```
 
-Cada etapa existe por causa de um defeito real e medido. Eles estão em [`docs/00-fluxo.md`](docs/00-fluxo.md).
+Cada etapa existe por causa de um defeito real. A lista, etapa por etapa, está em [`docs/00-fluxo.md`](docs/00-fluxo.md).
 
 ## O que vem na caixa
 
@@ -64,7 +95,7 @@ O `init` copia hooks, regras, skills, scripts e templates **só onde não existe
   "nome": "MeuProjeto",
   "branchPrincipal": "main",
   "pastasLimpas": ["src"],
-  "regras": ["O QUE É: SaaS de X. Não faz Y.", "SEGURANÇA: segredo em env, auth + dono, rate-limit."],
+  "regras": ["O QUE É: descreva o produto em uma frase.", "SEGURANÇA: segredo em env, auth + dono, rate-limit."],
   "skills": [{ "regex": "\\bdeploy\\b", "msg": "Rode os gates antes de publicar." }]
 }
 ```
@@ -133,7 +164,7 @@ Detalhe em [`docs/03-gates-e-meta-gate.md`](docs/03-gates-e-meta-gate.md).
 - [`docs/00-fluxo.md`](docs/00-fluxo.md): o fluxo etapa por etapa, com o defeito que originou cada uma
 - [`docs/02-hooks.md`](docs/02-hooks.md): os quatro hooks e o `kit.json`
 - [`docs/03-gates-e-meta-gate.md`](docs/03-gates-e-meta-gate.md): camadas de gate, onde ancorar, vermelho é dado
-- [`docs/04-vs-vibe-coding-toolkit.md`](docs/04-vs-vibe-coding-toolkit.md): o que veio do toolkit, o que foi melhorado, o que ficou de fora e por quê
+- [`docs/04-decisoes-de-desenho.md`](docs/04-decisoes-de-desenho.md): o que foi adotado, o que foi construído e o que ficou de fora, com o motivo
 - [`.claude/rules/`](.claude/rules/): roteamento de especialistas · ondas paralelas · onda de investigação
 - [`docs/prompts/`](docs/prompts/): 4 prompts prontos
 
@@ -143,7 +174,7 @@ Detalhe em [`docs/03-gates-e-meta-gate.md`](docs/03-gates-e-meta-gate.md).
 
 ## Créditos
 
-[vibe-coding-toolkit](https://github.com/soumatheusgomes/vibe-coding-toolkit) (Matheus Gomes) pela base e pelos sete pilares · [Superpowers](https://github.com/obra/superpowers) · [Caveman](https://github.com/JuliusBrussee/caveman) · [Graphify](https://github.com/safishamsi/graphify). O restante foi medido em produção.
+[Superpowers](https://github.com/obra/superpowers) · [Caveman](https://github.com/JuliusBrussee/caveman) · [Graphify](https://github.com/safishamsi/graphify) · [Context7](https://context7.com).
 
 ## Licença
 

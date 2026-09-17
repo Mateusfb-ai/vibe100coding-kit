@@ -1,8 +1,8 @@
-# O que veio do vibe-coding-toolkit, o que foi melhorado, o que foi deixado de fora
+# Decisões de desenho: o que foi adotado, o que foi construído, o que ficou de fora
 
-Origem: [`soumatheusgomes/vibe-coding-toolkit`](https://github.com/soumatheusgomes/vibe-coding-toolkit), lido por inteiro (30 arquivos, 7.850 linhas). Os sete pilares dele continuam valendo aqui: orquestrar em vez de implementar sozinho · brainstorm → plano → implementação → revisão · economia de token · Ponytail + Caveman · gate subindo de aviso para erro · grafo do código · memória em duas camadas.
+Sete pilares sustentam o kit: orquestrar em vez de implementar sozinho · brainstorm → plano → implementação → revisão · economia de token · Ponytail + Caveman · gate que prova · grafo do código · memória em duas camadas.
 
-## Adotado como está
+## Adotado do ecossistema
 | Peça | Como entra aqui |
 |---|---|
 | Superpowers (brainstorming, systematic-debugging, TDD, subagent-driven-development) | plugin, sugerido pelo hook `skill-suggest` a cada prompt |
@@ -10,10 +10,10 @@ Origem: [`soumatheusgomes/vibe-coding-toolkit`](https://github.com/soumatheusgom
 | Graphify | `graphify query` é a regra 1 de toda sessão; `vibekit doctor` acusa a ausência do grafo |
 | context7 | regra de epistemologia: fato de biblioteca se lê na doc da versão instalada |
 | Memória em duas camadas | `MEMORY.md` + notas por tópico, e `learnings/` como lei do aprendizado |
-| `parallel-subagent-driven-development.md` | virou `.claude/rules/ondas-paralelas.md`, com a regra de formação de onda por arquivos disjuntos |
+| Subagent-driven development (Superpowers) | `.claude/rules/ondas-paralelas.md`, com a regra de formação de onda por arquivos disjuntos |
 
-## Melhorado em produção (RELUZ, Spyko)
-| Do toolkit | Aqui | Por quê |
+## Construído por cima
+| Prática comum | Aqui | Por quê |
 |---|---|---|
 | Tabela genérica de especialistas (`backend-specialist`, `database-architect`…) | `roteamento-de-especialistas.md` com os agentes que **existem** na sessão, camada de modelo explícita | despachar um nome inexistente falha em silêncio |
 | Hooks como boas práticas em prosa | 4 hooks executáveis que impõem o ciclo (recusa na main, tarefa concluída, mutação em voo, lembrete de integrar) | regra escrita depende de alguém lembrar; hook recusa |
@@ -26,7 +26,7 @@ Origem: [`soumatheusgomes/vibe-coding-toolkit`](https://github.com/soumatheusgom
 ## Lido e deixado de fora, com o motivo
 | Peça | Por quê |
 |---|---|
-| RTK (proxy de tokens) | não é pacote publicado; o hook depende de um binário que não existe. Sem ele, peso morto. |
+| Proxy de tokens (RTK) | depende de um binário que não é publicado. Sem ele, o hook falha aberto e é peso morto. |
 | agent-browser | já há quatro superfícies de navegador no Claude Code (pane, extensão, devtools MCP, playwright). Uma quinta responde a mesma pergunta. |
-| Obsidian como memória | o próprio toolkit manda não inventar um cofre quando já existe destino de longo prazo. Aqui existe (`learnings/` + memória do agente). |
+| Obsidian como memória | não inventar um cofre quando já existe destino de longo prazo (`learnings/` + memória do agente). Um segundo sistema de memória diverge em silêncio. |
 | ESLint/Biome com regra nascendo em `warn` | a filosofia "regra nova nasce sem travar" está atendida pelo meta-gate + `gates-removidos.txt`; lint é decisão por projeto. |

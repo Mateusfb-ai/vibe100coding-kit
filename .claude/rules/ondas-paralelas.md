@@ -1,11 +1,5 @@
 # Ondas paralelas de subagentes
 
-> Origem: `templates/rules/parallel-subagent-driven-development.md` do
-> [vibe-coding-toolkit](https://github.com/soumatheusgomes/vibe-coding-toolkit),
-> adaptado às regras do projeto .
-> Complementa a skill `superpowers:subagent-driven-development`, que despacha
-> UM implementador por vez — esta regra descreve quando despachar vários em
-> paralelo continua seguro.
 
 ## O problema
 
@@ -29,8 +23,8 @@ Os dois modos de falha são removidos por MECANISMO, não por disciplina:
   deixa a mudança na árvore de trabalho e reporta os arquivos que tocou; quem
   commita é o orquestrador, uma tarefa por vez, depois que a onda inteira termina.
 
-🔴 **E ISSO VALE PARA A ONDA, NÃO PARA O AGENTE SOZINHO (decisão do dono,
-2026-08-22, literal: "conserta e commita").** A proibição existe por um motivo
+🔴 **E ISSO VALE PARA A ONDA, NÃO PARA O AGENTE SOZINHO (decisão de quem opera:
+"conserta e commita").** A proibição existe por um motivo
 medido, e o motivo é a CORRIDA: dois agentes indo ao `git commit` ao mesmo tempo
 misturam mudança não relacionada e commitam contra um `HEAD` velho. Despachado
 sozinho, não há com quem correr, e devolver a mudança para o orquestrador

@@ -1,8 +1,7 @@
 # Onda de investigação — quando as tarefas terminam no mesmo arquivo
 
 > Complementa [`ondas-paralelas.md`](ondas-paralelas.md), que descreve ondas de
-> IMPLEMENTADORES. Esta nasceu do primeiro uso real daquela regra neste
-> repositório, em 2026-08-20, e existe porque o caso mais comum aqui não é
+> IMPLEMENTADORES. Esta nasceu do primeiro uso real daquela regra, e existe porque o caso mais comum aqui não é
 > "muitas tarefas em muitos arquivos" — é **muitas tarefas que convergem para o
 > MESMO arquivo**.
 
