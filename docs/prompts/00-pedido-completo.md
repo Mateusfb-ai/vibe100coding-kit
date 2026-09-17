@@ -1,10 +1,11 @@
-# Prompt dinâmico (o de todo dia)
+# O pedido completo (um prompt, do zero ao integrado)
 
-Um prompt só, do brainstorm à entrega testada. Troque apenas o que está entre colchetes; o resto é o fluxo.
+Um prompt só, do brainstorm à entrega testada. As duas primeiras linhas descrevem a tarefa (aqui, um exemplo fictício); o resto é o fluxo e não muda.
 
 ```
 /brainstorming
-TROQUE AQUI: [Preciso que você integre com o Resend para verificar o e-mail no cadastro do usuário]
+Quero adicionar login com Google no app: botão na tela de entrar, callback OAuth,
+criação da conta na primeira vez e vínculo com conta já existente pelo e-mail.
 
 Planeje tudo com /writing-plans e implemente tudo com /subagent-driven-development.
 Sempre que der, trabalhe em paralelo com /dispatching-parallel-agents (ondas com arquivos disjuntos).

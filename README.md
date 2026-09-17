@@ -65,7 +65,7 @@ Cada etapa existe por causa de um defeito real. A lista, etapa por etapa, está 
 | **Regras** | `.claude/rules/` | roteamento de especialistas (agentes que existem, camada de modelo explícita), ondas paralelas, onda de investigação |
 | **Skills** | `.claude/skills/` | `extract-approach` (lei do aprendizado), `sync-main` (publicar com disciplina), `checar-entrega` (régua + segurança antes de entregar); lista das recomendadas na seção Skills |
 | **Templates** | `templates/` | `CLAUDE.md` (as quatro leis, erro → regra, régua, escalada), `REGRA.md`, `CEREBRO-AGENTE.md` (como raciocinar), `DECISOES.md`, learning, spec, `kit.json` |
-| **Prompts** | `docs/prompts/` | prompt dinâmico (o de todo dia) · brainstorm → spec · onda paralela · varredura de segurança por classe · code review em painel · registrar aprendizado |
+| **Prompts** | `docs/prompts/` | pedido completo (um prompt, do zero ao integrado) · brainstorm → spec · onda paralela · varredura de segurança por classe · code review em painel · registrar aprendizado |
 | **Instalador** | `bin/vibekit.mjs` | `init` aditivo (nunca sobrescreve o que existe) e `doctor` |
 
 ## Instalação (passo a passo)
@@ -188,13 +188,14 @@ pip install graphifyy && graphify .          # opcional, grafo do código
 
 Tabela completa (o que é, onde entra, custo sempre-ligado) em [`docs/05-ferramentas.md`](docs/05-ferramentas.md).
 
-## O prompt dinâmico (o de todo dia)
+## O pedido completo (um prompt, do zero ao integrado)
 
-Um prompt só, do brainstorm à entrega testada. Troque apenas o que está entre colchetes.
+Um prompt só, do brainstorm à entrega testada. As duas primeiras linhas descrevem a tarefa (exemplo fictício); o resto é o fluxo e não muda.
 
 ```
 /brainstorming
-TROQUE AQUI: [Preciso que você integre com o Resend para verificar o e-mail no cadastro do usuário]
+Quero adicionar login com Google no app: botão na tela de entrar, callback OAuth,
+criação da conta na primeira vez e vínculo com conta já existente pelo e-mail.
 
 Planeje tudo com /writing-plans e implemente tudo com /subagent-driven-development.
 Sempre que der, trabalhe em paralelo com /dispatching-parallel-agents (ondas com arquivos disjuntos).
@@ -206,7 +207,7 @@ Para testar o frontend use o agent-browser (Vercel). Antes de integrar, rode
 o code-review em painel e corrija todo CRÍTICO e ALTO.
 ```
 
-Variações (bug, só planejar, tarefa mecânica) em [`docs/prompts/00-prompt-dinamico.md`](docs/prompts/00-prompt-dinamico.md).
+Variações (bug, só planejar, tarefa mecânica) em [`docs/prompts/00-pedido-completo.md`](docs/prompts/00-pedido-completo.md).
 
 ## Como escrever um gate novo (a lei do gate)
 
@@ -232,7 +233,7 @@ Detalhe em [`docs/03-gates-e-meta-gate.md`](docs/03-gates-e-meta-gate.md).
 - [`docs/04-decisoes-de-desenho.md`](docs/04-decisoes-de-desenho.md): o que foi adotado, o que foi construído e o que ficou de fora, com o motivo
 - [`.claude/rules/`](.claude/rules/): roteamento de especialistas · ondas paralelas · onda de investigação
 - [`docs/05-ferramentas.md`](docs/05-ferramentas.md): Superpowers, Ponytail, Caveman, code-review em painel, agent-browser, find-skills, Graphify, Context7: onde cada uma entra e como instalar
-- [`docs/prompts/`](docs/prompts/): prompt dinâmico · brainstorm → spec · onda paralela · varredura de segurança · registrar aprendizado · code review em painel
+- [`docs/prompts/`](docs/prompts/): pedido completo · brainstorm → spec · onda paralela · varredura de segurança · registrar aprendizado · code review em painel
 
 ## Sobre comentários no código
 
