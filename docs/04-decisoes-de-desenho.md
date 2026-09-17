@@ -27,6 +27,6 @@ Sete pilares sustentam o kit: orquestrar em vez de implementar sozinho · brains
 | Peça | Por quê |
 |---|---|
 | Proxy de tokens (RTK) | depende de um binário que não é publicado. Sem ele, o hook falha aberto e é peso morto. |
-| agent-browser | já há quatro superfícies de navegador no Claude Code (pane, extensão, devtools MCP, playwright). Uma quinta responde a mesma pergunta. |
+| agent-browser como padrão | o Claude Code já tem quatro superfícies de navegador (pane, extensão, devtools MCP, playwright). Fica como opcional no prompt dinâmico para quem testa frontend na Vercel. |
 | Obsidian como memória | não inventar um cofre quando já existe destino de longo prazo (`learnings/` + memória do agente). Um segundo sistema de memória diverge em silêncio. |
 | ESLint/Biome com regra nascendo em `warn` | a filosofia "regra nova nasce sem travar" está atendida pelo meta-gate + `gates-removidos.txt`; lint é decisão por projeto. |
