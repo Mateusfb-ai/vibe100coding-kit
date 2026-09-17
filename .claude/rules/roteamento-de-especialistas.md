@@ -34,6 +34,7 @@ despachar por conta própria.
 | `typescript-specialist` | Tipagem, correção de assíncrono, escape do sistema de tipos. | intermediária |
 | `database-specialist` | Schema, migração, índice, estratégia de consulta. ⚠️ Migração destrutiva vai DEPOIS do deploy. | intermediária |
 | `tester` | Testes de unidade e integração, TDD, caso de borda. | intermediária |
+| `code-review` (plugin) / painel de `docs/prompts/05-code-review-em-painel.md` | Revisão antes de integrar: lentes independentes em paralelo, síntese deduplicada e ranqueada. | intermediária |
 | `feature-dev:code-reviewer` | Revisão geral de mudança — bug, erro de lógica, convenção do projeto. | intermediária |
 | `pr-review-toolkit:silent-failure-hunter` | `catch` que engole a causa, fallback que esconde o defeito. | intermediária |
 | `pr-review-toolkit:type-design-analyzer` | Tipo largo demais escondendo estado impossível. | intermediária |

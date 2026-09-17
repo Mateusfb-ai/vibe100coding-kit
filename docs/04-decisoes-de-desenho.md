@@ -6,7 +6,10 @@ Sete pilares sustentam o kit: orquestrar em vez de implementar sozinho · brains
 | Peça | Como entra aqui |
 |---|---|
 | Superpowers (brainstorming, systematic-debugging, TDD, subagent-driven-development) | plugin, sugerido pelo hook `skill-suggest` a cada prompt |
-| Caveman / Ponytail | plugin e skill; o hook sugere `caveman` quando o pedido é por brevidade |
+| Ponytail / Caveman | plugins: escada da preguiça em todo código e prosa compacta; o hook lembra da escada em toda sessão e sugere `caveman` quando o pedido é por brevidade |
+| agent-browser (Vercel) | CLI para provar o frontend por árvore de acessibilidade; entra na fase Provar e no prompt dinâmico |
+| code-review em painel | plugin `code-review` + `pr-review-toolkit` e o prompt de painel; entra entre Provar e Publicar |
+| find-skills | antes de improvisar, `npx skills find`; o hook sugere quando o pedido é "existe skill / como faço" |
 | Graphify | `graphify query` é a regra 1 de toda sessão; `vibekit doctor` acusa a ausência do grafo |
 | context7 | regra de epistemologia: fato de biblioteca se lê na doc da versão instalada |
 | Memória em duas camadas | `MEMORY.md` + notas por tópico, e `learnings/` como lei do aprendizado |
@@ -27,6 +30,5 @@ Sete pilares sustentam o kit: orquestrar em vez de implementar sozinho · brains
 | Peça | Por quê |
 |---|---|
 | Proxy de tokens (RTK) | depende de um binário que não é publicado. Sem ele, o hook falha aberto e é peso morto. |
-| agent-browser como padrão | o Claude Code já tem quatro superfícies de navegador (pane, extensão, devtools MCP, playwright). Fica como opcional no prompt dinâmico para quem testa frontend na Vercel. |
 | Obsidian como memória | não inventar um cofre quando já existe destino de longo prazo (`learnings/` + memória do agente). Um segundo sistema de memória diverge em silêncio. |
 | ESLint/Biome com regra nascendo em `warn` | a filosofia "regra nova nasce sem travar" está atendida pelo meta-gate + `gates-removidos.txt`; lint é decisão por projeto. |

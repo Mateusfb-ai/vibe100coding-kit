@@ -39,6 +39,12 @@ const REGRAS = [
     'Entregável pronto: rode `checar-entrega` (régua + segurança) antes de mandar ao dono.'],
   [/\b(sobe pro main|publica|commita e sobe|leva pro main|integra)\b/,
     'Subir para a main: `sync-main` / `npm run integrar` (rebase antes, gates sobre a base nova, um push por vez).'],
+  [/\b(code ?review|revis(a|ão) (do|de) (c[oó]digo|pr|diff|branch)|antes de (mergear|integrar)|painel de revis)\b/,
+    'Revisão antes de integrar: painel de revisores (`docs/prompts/05-code-review-em-painel.md`) ou `/code-review`; achado sem cenário de falha não é achado.'],
+  [/\b(testa(r)? (a )?(tela|frontend|front|p[aá]gina|fluxo)|navegador|browser|clica|preenche o form|e2e)\b/,
+    'Teste de frontend de verdade: `agent-browser open <url>` → `snapshot` → `click/fill @eN` → `screenshot` (ou a superfície de navegador da sessão).'],
+  [/\b(existe (uma )?skill|tem skill|como (eu )?fa[çc]o|skill (pra|para)|find.?skills)\b/,
+    'Antes de improvisar: `find-skills` (`npx skills find "<tema>"`) busca no ecossistema aberto e instala.'],
   [/\b(resumid|breve|curto|econom[iz]|menos token|caveman|direto ao ponto)\b/,
     'Use `caveman` (modo compacto, mantém precisão técnica).'],
 ];

@@ -10,41 +10,48 @@
   <a href="https://github.com/spyko-app/vibe100coding-kit/archive/refs/heads/main.zip"><img src="https://img.shields.io/badge/Download-.zip-333?style=for-the-badge&logo=github&logoColor=white" alt="Download zip"></a>
 </p>
 
-## 🗺️ O fluxo completo
+## 🔁 O ciclo de trabalho
 
-Quatro fases num ciclo que se fecha sozinho: **abrir → construir → provar → publicar**, e a próxima tarefa começa de uma árvore atualizada. Os hooks não são etapas: são os trilhos, e recusam o que sai deles (editar na `main`, empilhar tarefa sobre tarefa concluída, esquecer commits sem integrar). Gate vermelho devolve para construir; dono que não autoriza devolve para o commit; nada sobe sem ter sido validado sobre a base em que vai entrar.
+Quatro fases num ciclo que se fecha sozinho: **abrir → construir → provar → publicar**, e a próxima tarefa começa de uma árvore atualizada. Os hooks não são etapas: são os trilhos, e recusam o que sai deles. Gate vermelho devolve para construir; revisão com CRÍTICO devolve para construir; dono que não autoriza devolve para o commit; nada sobe sem ter sido validado sobre a base em que vai entrar.
 
 ```mermaid
 flowchart TB
-    subgraph ABRIR["1 · Abrir"]
-        S["🧭 sessao / tarefa abrir<br/>worktree próprio, branch marcada ABERTA"]
+    subgraph ABRIR["① Abrir"]
+        S["🚪 sessao / tarefa abrir<br/>worktree próprio, branch marcada ABERTA"]
     end
-    subgraph CONSTRUIR["2 · Construir"]
-        B["💡 /brainstorming<br/>uma pergunta por vez"] --> P["📝 /writing-plans<br/>spec com 'pronto' checável"] --> I["🛠️ /subagent-driven-development<br/>ondas paralelas, arquivos disjuntos"]
+    subgraph CONSTRUIR["② Construir"]
+        B["🧠 /brainstorming<br/>uma pergunta por vez"] --> P["🗒️ /writing-plans<br/>spec com 'pronto' checável"] --> I["⚙️ /subagent-driven-development<br/>ondas paralelas, arquivos disjuntos"]
     end
-    subgraph PROVAR["3 · Provar"]
-        G["🚦 npm run gates<br/>todos, em paralelo"] --> M["🧪 npm run meta-gate<br/>defeito injetado tem de ficar vermelho"]
+    subgraph PROVAR["③ Provar"]
+        G["🛡️ npm run gates<br/>todos, em paralelo"] --> M["🔬 npm run meta-gate<br/>defeito injetado tem de ficar vermelho"]
+        W["🖥️ agent-browser<br/>snapshot → click → screenshot"] --> M
+        R["🔎 code-review em painel<br/>lentes independentes, achado com cenário de falha"]
     end
-    subgraph PUBLICAR["4 · Publicar"]
-        C["📦 commit atômico + push da branch"] --> D{"🙋 dono autoriza?"}
-        D -->|sim| N["🔀 npm run integrar<br/>fila → rebase → gates na base nova → push"]
+    subgraph PUBLICAR["④ Publicar"]
+        C["💾 commit atômico + push da branch"] --> D{"🧑‍⚖️ dono autoriza?"}
+        D -->|sim| N["🚢 npm run integrar<br/>fila → rebase → gates na base nova → push"]
         D -->|não| C
-        N --> F["✅ tarefa concluir<br/>nota em learnings/"]
+        N --> F["🏁 tarefa concluir<br/>nota em learnings/"]
     end
 
     S --> B
     I --> G
-    M -->|verde| C
+    I --> W
+    M -->|verde| R
     M -->|vermelho| I
+    R -->|sem CRÍTICO/ALTO| C
+    R -->|CRÍTICO| I
     F -.->|próxima tarefa, árvore nova| S
 
-    H1(["🪝 exige-tarefa<br/>recusa edição na main ou em tarefa concluída"]) -.-> S
-    H2(["🪝 session-rules + skill-suggest<br/>regras da sessão e a skill certa a cada prompt"]) -.-> B
-    H3(["🪝 fim-de-tarefa<br/>commits prontos e parados? lembra de integrar"]) -.-> C
-    K(["🧠 CLAUDE.md · CÉREBRO · graphify · learnings/"]) -.->|contexto antes de codar| B
+    H1(["⛓️ exige-tarefa<br/>recusa edição na main ou em tarefa concluída"]) -.-> S
+    H2(["⛓️ session-rules + skill-suggest<br/>regras da sessão e a skill certa a cada prompt"]) -.-> B
+    H3(["⛓️ fim-de-tarefa<br/>commits prontos e parados? lembra de integrar"]) -.-> C
+    K(["📚 CLAUDE.md · CÉREBRO · graphify · context7 · learnings/"]) -.->|contexto antes de codar| B
+    Y(["🦥 Ponytail + 🗿 Caveman<br/>o que se constrói e como se fala"]) -.->|toda resposta| I
+    X(["🔭 find-skills<br/>existe skill para isso?"]) -.->|antes de improvisar| B
 ```
 
-Cada etapa existe por causa de um defeito real. A lista, etapa por etapa, está em [`docs/00-fluxo.md`](docs/00-fluxo.md).
+Cada etapa existe por causa de um defeito real. A lista, etapa por etapa, está em [`docs/00-fluxo.md`](docs/00-fluxo.md); as ferramentas e onde cada uma entra, em [`docs/05-ferramentas.md`](docs/05-ferramentas.md).
 
 ## O que vem na caixa
 
@@ -58,7 +65,7 @@ Cada etapa existe por causa de um defeito real. A lista, etapa por etapa, está 
 | **Regras** | `.claude/rules/` | roteamento de especialistas (agentes que existem, camada de modelo explícita), ondas paralelas, onda de investigação |
 | **Skills** | `.claude/skills/` | `extract-approach` (lei do aprendizado), `sync-main` (publicar com disciplina), `checar-entrega` (régua + segurança antes de entregar); lista das recomendadas na seção Skills |
 | **Templates** | `templates/` | `CLAUDE.md` (as quatro leis, erro → regra, régua, escalada), `REGRA.md`, `CEREBRO-AGENTE.md` (como raciocinar), `DECISOES.md`, learning, spec, `kit.json` |
-| **Prompts** | `docs/prompts/` | prompt dinâmico (o de todo dia) · brainstorm → spec · onda paralela · varredura de segurança por classe · registrar aprendizado |
+| **Prompts** | `docs/prompts/` | prompt dinâmico (o de todo dia) · brainstorm → spec · onda paralela · varredura de segurança por classe · code review em painel · registrar aprendizado |
 | **Instalador** | `bin/vibekit.mjs` | `init` aditivo (nunca sobrescreve o que existe) e `doctor` |
 
 ## Instalação (passo a passo)
@@ -153,7 +160,11 @@ echo '{"tool_input":{"file_path":"'$PWD'/src/a.ts"},"cwd":"'$PWD'"}' | node .cla
 | Skill / plugin | Para quê |
 |---|---|
 | `superpowers` (`/brainstorming`, `/writing-plans`, `/subagent-driven-development`, `/dispatching-parallel-agents`, `/systematic-debugging`, `/test-driven-development`) | o processo: brainstorm → plano → implementação por subagentes → debug científico → TDD |
+| `ponytail` | a escada da preguiça em todo código: pula → reusa → stdlib → dependência → escreve; causa raiz, não sintoma (`/plugin marketplace add DietrichGebert/ponytail` · `/plugin install ponytail@ponytail`) |
 | `caveman` | respostas compactas sem perder precisão técnica |
+| `code-review` + `pr-review-toolkit` | revisão antes de integrar: `/code-review` e o painel de revisores independentes (silent-failure-hunter, type-design-analyzer, comment-analyzer) |
+| `agent-browser` (Vercel, CLI) | teste de frontend de verdade por árvore de acessibilidade: `open` → `snapshot` → `click/fill @eN` → `screenshot` (`npm i -g agent-browser && agent-browser install`) |
+| `find-skills` | "existe skill para X?" busca e instala do ecossistema aberto antes de improvisar (`npx skills add vercel-labs/skills --skill find-skills`) |
 | `context7` | documentação da versão REAL da biblioteca instalada, não a lembrança de treinamento |
 | `graphify` | grafo do código; `graphify query` antes de responder sobre arquitetura |
 | `humanizer` | texto final para humano sem cara de IA |
@@ -161,9 +172,21 @@ echo '{"tool_input":{"file_path":"'$PWD'/src/a.ts"},"cwd":"'$PWD'"}' | node .cla
 | `last30days` / `deep-research` | pesquisa recente e relatório multi-fonte |
 
 ```bash
-claude plugin install superpowers caveman context7   # no Claude Code
-pip install graphifyy && graphify .                  # opcional, grafo do código
+# dentro do Claude Code
+/plugin install superpowers@claude-plugins-official
+/plugin install caveman@claude-plugins-official
+/plugin install code-review@claude-plugins-official
+/plugin install pr-review-toolkit@claude-plugins-official
+/plugin install context7@context7-marketplace
+/plugin marketplace add DietrichGebert/ponytail && /plugin install ponytail@ponytail
+
+# no terminal
+npm i -g agent-browser && agent-browser install
+npx skills add vercel-labs/skills --skill find-skills
+pip install graphifyy && graphify .          # opcional, grafo do código
 ```
+
+Tabela completa (o que é, onde entra, custo sempre-ligado) em [`docs/05-ferramentas.md`](docs/05-ferramentas.md).
 
 ## O prompt dinâmico (o de todo dia)
 
@@ -179,7 +202,8 @@ Sempre que der, trabalhe em paralelo com /dispatching-parallel-agents (ondas com
 Depois do brainstorming, tire todas as suas dúvidas de uma vez, aprove o plano
 e execute até o fim sem me perguntar mais nada. Me entregue pronto, validado e
 testado: gates verdes colados, gate novo com mutação e meta-gate verde.
-Para testar o frontend use o agent-browser (Vercel).
+Para testar o frontend use o agent-browser (Vercel). Antes de integrar, rode
+o code-review em painel e corrija todo CRÍTICO e ALTO.
 ```
 
 Variações (bug, só planejar, tarefa mecânica) em [`docs/prompts/00-prompt-dinamico.md`](docs/prompts/00-prompt-dinamico.md).
@@ -207,7 +231,8 @@ Detalhe em [`docs/03-gates-e-meta-gate.md`](docs/03-gates-e-meta-gate.md).
 - [`docs/03-gates-e-meta-gate.md`](docs/03-gates-e-meta-gate.md): camadas de gate, onde ancorar, vermelho é dado
 - [`docs/04-decisoes-de-desenho.md`](docs/04-decisoes-de-desenho.md): o que foi adotado, o que foi construído e o que ficou de fora, com o motivo
 - [`.claude/rules/`](.claude/rules/): roteamento de especialistas · ondas paralelas · onda de investigação
-- [`docs/prompts/`](docs/prompts/): prompt dinâmico · brainstorm → spec · onda paralela · varredura de segurança · registrar aprendizado
+- [`docs/05-ferramentas.md`](docs/05-ferramentas.md): Superpowers, Ponytail, Caveman, code-review em painel, agent-browser, find-skills, Graphify, Context7: onde cada uma entra e como instalar
+- [`docs/prompts/`](docs/prompts/): prompt dinâmico · brainstorm → spec · onda paralela · varredura de segurança · registrar aprendizado · code review em painel
 
 ## Sobre comentários no código
 

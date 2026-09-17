@@ -27,6 +27,9 @@ Todos os gates, em paralelo, acumulando falhas. **Defeito de origem:** uma cadei
 ## `npm run meta-gate`
 Cada gate prova que fica vermelho com o defeito real injetado (mutação declarada em `scripts/mutacoes.mjs`). **Defeito de origem:** doze gates nasceram cegos, dez pela mesma causa (âncora de texto frouxa casando no lugar errado). Gate com premissa errada não fica cego: fica do lado errado, com autoridade.
 
+## Revisar em painel
+Antes de commitar mudança não trivial: revisores independentes em paralelo (qualidade, segurança, tipagem, framework, silent-failure), cada achado com cenário de falha; síntese deduplica e ranqueia. Frontend se prova no navegador com `agent-browser` (snapshot da árvore de acessibilidade, não pixel). **Defeito de origem:** um revisor só favorece a própria lente; segurança não pega regra de hook, e vice-versa.
+
 ## Commit e push da branch
 Um commit atômico, Conventional Commits, `git add` seletivo por caminho (subagente ou meta-gate pode ter deixado arquivo mutado). Push da branch, não da principal.
 

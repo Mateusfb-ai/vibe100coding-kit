@@ -12,7 +12,8 @@ Sempre que der, trabalhe em paralelo com /dispatching-parallel-agents (ondas com
 Depois do brainstorming, tire todas as suas dúvidas de uma vez, aprove o plano
 e execute até o fim sem me perguntar mais nada. Me entregue pronto, validado e
 testado: gates verdes colados, gate novo com mutação e meta-gate verde.
-Para testar o frontend use o agent-browser (Vercel).
+Para testar o frontend use o agent-browser (Vercel). Antes de integrar, rode
+o code-review em painel e corrija todo CRÍTICO e ALTO.
 ```
 
 ## Por que funciona
