@@ -1,0 +1,23 @@
+{
+  "name": "vibe100coding-kit",
+  "version": "1.0.0",
+  "description": "Workflow completo para programar com agentes (Claude Code): hooks que impõem o ciclo de tarefa, gates que provam que provam, ondas paralelas de subagentes, memória e aprendizado. Extraído de produção (RELUZ, Spyko).",
+  "type": "module",
+  "bin": { "vibekit": "bin/vibekit.mjs" },
+  "files": ["bin", ".claude", "scripts", "templates", "docs", "README.md", "LICENSE"],
+  "scripts": {
+    "sessao": "node scripts/sessao.mjs",
+    "tarefa": "node scripts/tarefa.mjs",
+    "integrar": "node scripts/integrar.mjs",
+    "gates": "node scripts/rodar-gates.mjs",
+    "gate:sem-comentario": "node scripts/gates/sem-comentario.mjs",
+    "gate:sem-travessao": "node scripts/gates/sem-travessao.mjs",
+    "gate:lista-de-gates": "node scripts/gates/lista-de-gates.mjs",
+    "meta-gate": "node scripts/meta-gate.mjs",
+    "test": "node scripts/meta-gate.mjs && node scripts/rodar-gates.mjs"
+  },
+  "engines": { "node": ">=20" },
+  "license": "MIT",
+  "repository": "github:spyko-app/vibe100coding-kit",
+  "keywords": ["claude-code", "ai-coding", "agents", "workflow", "quality-gates", "hooks", "vibe-coding"]
+}

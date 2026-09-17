@@ -1,0 +1,20 @@
+{
+  "nome": "MeuProjeto",
+  "branchPrincipal": "main",
+  "idioma": "pt-BR",
+  "comandos": {
+    "sessao": "npm run sessao -- <tipo>/<tarefa>",
+    "tarefa": "npm run tarefa -- abrir <tipo>/<nome>",
+    "gates": "npm run gates",
+    "integrar": "npm run integrar"
+  },
+  "fontesDaVerdade": ["CLAUDE.md", "docs/REGRA.md", "docs/CEREBRO-AGENTE.md", "learnings/"],
+  "regras": [
+    "O QUE É: descreva o produto em uma frase (o que faz e o que NÃO faz).",
+    "SEGURANÇA: os mínimos que bloqueiam publicação neste projeto."
+  ],
+  "skills": [
+    { "regex": "\\b(deploy|publicar em produ[çc][aã]o)\\b", "msg": "Antes de publicar: rode os gates e a régua de segurança do projeto." }
+  ],
+  "pastasLimpas": ["src"]
+}

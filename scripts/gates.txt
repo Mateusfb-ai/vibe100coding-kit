@@ -1,0 +1,4 @@
+# Um gate por linha. TODOS rodam, sempre (rodar-gates.mjs). Gate removido vai para gates-removidos.txt com o motivo.
+node scripts/gates/sem-comentario.mjs
+node scripts/gates/sem-travessao.mjs
+node scripts/gates/lista-de-gates.mjs

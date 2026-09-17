@@ -1,0 +1,1 @@
+# Gate removido é DECLARADO: o comando sozinho numa linha e o motivo em linhas de # abaixo.
