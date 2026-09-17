@@ -100,7 +100,7 @@ if (acao === "init") {
     if (!tem && !opcional) faltam++;
     console.log(`  ${tem ? "✅" : opcional ? "➖" : "❌"} ${rel.padEnd(36)} ${oque}`);
   }
-  console.log(faltam ? `\n${faltam} item(ns) faltando. Rode: npx vibe100coding-kit init` : "\nTudo no lugar.");
+  console.log(faltam ? `\n${faltam} item(ns) faltando. Rode: npx github:spyko-app/vibe100coding-kit init` : "\nTudo no lugar.");
   process.exit(faltam ? 1 : 0);
 } else {
   console.log("uso:\n  npx vibe100coding-kit init [pasta]     instala sem sobrescrever\n  npx vibe100coding-kit doctor [pasta]   confere a instalação");
