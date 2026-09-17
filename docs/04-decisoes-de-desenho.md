@@ -9,6 +9,7 @@ Sete pilares sustentam o kit: orquestrar em vez de implementar sozinho · brains
 | Ponytail / Caveman | plugins: escada da preguiça em todo código e prosa compacta; o hook lembra da escada em toda sessão e sugere `caveman` quando o pedido é por brevidade |
 | agent-browser (Vercel) | CLI para provar o frontend por árvore de acessibilidade; entra na fase Provar e no pedido completo |
 | code-review em painel | plugin `code-review` + `pr-review-toolkit` e o prompt de painel; entra entre Provar e Publicar |
+| impeccable | design de interface com método: shape → build → critique/audit → polish; entra em toda tela |
 | find-skills | antes de improvisar, `npx skills find`; o hook sugere quando o pedido é "existe skill / como faço" |
 | Graphify | `graphify query` é a regra 1 de toda sessão; `vibekit doctor` acusa a ausência do grafo |
 | context7 | regra de epistemologia: fato de biblioteca se lê na doc da versão instalada |

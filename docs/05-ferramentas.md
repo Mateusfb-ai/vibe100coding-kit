@@ -7,6 +7,7 @@
 | **Caveman** | plugin | Toda resposta: compacta a prosa, mantém código, commit e alerta de segurança normais | `/plugin install caveman@claude-plugins-official` |
 | **code-review em painel** | plugin + prompt | Revisar, antes de integrar: revisores estreitos em paralelo (qualidade, segurança, tipagem, framework), cada achado com `arquivo:linha` + cenário de falha; síntese deduplica, filtra e ranqueia. Prompt em [`prompts/05-code-review-em-painel.md`](prompts/05-code-review-em-painel.md) | `/plugin install code-review@claude-plugins-official` · `/plugin install pr-review-toolkit@claude-plugins-official` (silent-failure-hunter, type-design-analyzer, comment-analyzer) |
 | **agent-browser** (Vercel) | CLI | Provar: testa o frontend de verdade, por snapshot da árvore de acessibilidade (`@e1`, `@e2`…) em vez de seletor CSS ou pixel. `open` → `snapshot` → `click` / `fill` → `screenshot` | `npm i -g agent-browser && agent-browser install` |
+| **impeccable** | skill | Construir e Provar, em toda interface: `shape` planeja UX/UI antes do código; `critique` e `audit` avaliam (heurísticas, a11y, performance, responsivo); `polish`, `harden`, `adapt`, `clarify` refinam; `live` gera variantes no navegador. Escolhe o modo pela superfície (Persuade, Operate, Read, Experience) e respeita o brief | `npx skills add pbakaus/impeccable` |
 | **find-skills** | skill | Qualquer fase: "existe skill para X?" busca e instala do ecossistema aberto (`skills.sh`) em vez de improvisar | `npx skills add vercel-labs/skills --skill find-skills` · depois `npx skills find "<tema>"` |
 | **Graphify** | CLI | Antes de codar: `graphify query "<pergunta>"` responde arquitetura com `arquivo:linha`; `graphify update .` depois de mudar código | `pip install graphifyy` · `graphify .` |
 | **Context7** | plugin/MCP | Antes de codar com biblioteca: doc da versão instalada, não a lembrança de treinamento | `/plugin install context7@context7-marketplace` |
@@ -15,7 +16,7 @@
 
 ## Como o kit as chama sem você lembrar
 
-- O hook `skill-suggest` lê o prompt e sugere a certa: bug → systematic-debugging · feature → brainstorming + spec · "revisa / code review / antes de mergear" → painel de revisão · "testa a tela / frontend" → agent-browser · "existe skill / como faço X" → find-skills · "resumido" → caveman.
+- O hook `skill-suggest` lê o prompt e sugere a certa: bug → systematic-debugging · feature → brainstorming + spec · "revisa / code review / antes de mergear" → painel de revisão · "testa a tela / frontend" → agent-browser · "UI / design / tela / layout" → impeccable · "existe skill / como faço X" → find-skills · "resumido" → caveman.
 - O hook `session-rules` lembra da escada da preguiça (Ponytail) e do grafo em toda sessão.
 - A regra `roteamento-de-especialistas.md` diz qual agente do painel de revisão usar para cada classe de defeito.
 

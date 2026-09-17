@@ -19,7 +19,7 @@ O mesmo sem worktree, para quem trabalha sozinho. A marca `branch.<nome>.kitTare
 Skill `superpowers:brainstorming` antes de qualquer feature; spec em `specs/` com o critério de "pronto" checável. **Defeito de origem:** implementação que fechava bem na explicação e não era o que o dono pediu.
 
 ## Implementar
-Escada da preguiça (pula → reusa → stdlib → dependência → escreve), TDD, mudança cirúrgica. Tarefa grande vira **onda paralela** (`.claude/rules/ondas-paralelas.md`): só tarefas com conjuntos de arquivos disjuntos correm juntas, e nenhuma commita sozinha.
+Escada da preguiça (pula → reusa → stdlib → dependência → escreve), TDD, mudança cirúrgica. Interface passa pela `impeccable` (`shape` antes do código, `critique`/`audit` depois). Tarefa grande vira **onda paralela** (`.claude/rules/ondas-paralelas.md`): só tarefas com conjuntos de arquivos disjuntos correm juntas, e nenhuma commita sozinha.
 
 ## `npm run gates`
 Todos os gates, em paralelo, acumulando falhas. **Defeito de origem:** uma cadeia `&&` de 190 passos parava no primeiro vermelho e escondeu 187 gates; à noite escondeu justamente o que barraria uma regressão.

@@ -48,6 +48,7 @@ flowchart TB
     H3(["⛓️ fim-de-tarefa<br/>commits prontos e parados? lembra de integrar"]) -.-> C
     K(["📚 CLAUDE.md · CÉREBRO · graphify · context7 · learnings/"]) -.->|contexto antes de codar| B
     Y(["🦥 Ponytail + 🗿 Caveman<br/>o que se constrói e como se fala"]) -.->|toda resposta| I
+    Z(["🎨 impeccable<br/>shape antes, critique/audit depois"]) -.->|toda interface| I
     X(["🔭 find-skills<br/>existe skill para isso?"]) -.->|antes de improvisar| B
 ```
 
@@ -168,7 +169,8 @@ echo '{"tool_input":{"file_path":"'$PWD'/src/a.ts"},"cwd":"'$PWD'"}' | node .cla
 | `context7` | documentação da versão REAL da biblioteca instalada, não a lembrança de treinamento |
 | `graphify` | grafo do código; `graphify query` antes de responder sobre arquitetura |
 | `humanizer` | texto final para humano sem cara de IA |
-| `ui-ux-pro-max` (ou a skill de design da sua stack) | antes de codar interface |
+| `impeccable` | interface com design de verdade: `shape` (planeja UX antes do código), `critique` / `audit` (revisão heurística, a11y, performance, responsivo), `polish` / `harden` / `adapt` (refinar, produção, telas), `clarify` (copy de UI) e `live` (variantes no navegador). Modo por superfície: Persuade, Operate, Read, Experience (`npx skills add pbakaus/impeccable`) |
+| `ui-ux-pro-max` (ou a skill de design da sua stack) | paletas, tipografia e padrões de UI antes de codar interface |
 | `last30days` / `deep-research` | pesquisa recente e relatório multi-fonte |
 
 ```bash
@@ -183,6 +185,7 @@ echo '{"tool_input":{"file_path":"'$PWD'/src/a.ts"},"cwd":"'$PWD'"}' | node .cla
 # no terminal
 npm i -g agent-browser && agent-browser install
 npx skills add vercel-labs/skills --skill find-skills
+npx skills add pbakaus/impeccable
 pip install graphifyy && graphify .          # opcional, grafo do código
 ```
 

@@ -28,7 +28,7 @@ const REGRAS = [
   [/\b(pesquis[ae]|research|tend[eê]ncia|[uú]ltimos dias|no twitter|no reddit|viral|o que falam|concorrente)\b/,
     'Pesquisa recente: `last30days` / `agent-reach`; relatório multi-fonte: `deep-research`.'],
   [/\b(ui|ux|design|landing|dashboard|interface|componente|layout|tela|paleta|cor(es)?|tipografia|css|figma|mockup)\b/,
-    'UI/design: use a skill de design do projeto (ex.: `ui-ux-pro-max`) antes de codar interface.'],
+    'UI/design: `impeccable` (`shape` antes de codar, `critique`/`audit` depois) e a skill de design da stack (ex.: `ui-ux-pro-max`).'],
   [/\b(marketing|copy|an[uú]ncio|ads?|seo|convers[aã]o|cro|newsletter|pre[çc]o|pricing|funil|paywall|onboarding)\b/,
     'Marketing/copy: `marketing-skills` (copywriting, ads, seo-audit, cro, pricing).'],
   [/\b(post|roteiro|legenda|caption|texto (final|de venda)|humaniz|soa como ia|cara de ia)\b/,
