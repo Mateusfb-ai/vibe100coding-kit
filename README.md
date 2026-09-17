@@ -7,9 +7,9 @@
 > **EN:** A workflow for coding with agents: 4 Claude Code hooks that enforce a task cycle (no edits on `main`, no stacking on finished tasks, "integrate me" reminders), a parallel gate runner plus a **meta-gate** that injects the real defect to prove every gate turns red, parallel subagent waves with disjoint file sets, rebase-then-validate integration with a per-machine FIFO queue, and templates for `CLAUDE.md`, decisions and learnings. Docs are in Portuguese; the code and hooks are language-agnostic. MIT.
 
 <p align="center">
-  <a href="#instalação-passo-a-passo"><img src="https://img.shields.io/badge/npx_github%3Aspyko--app%2Fvibe100coding--kit-init-0a84ff?style=for-the-badge&logo=npm&logoColor=white" alt="npx github:spyko-app/vibe100coding-kit init"></a>
+  <a href="#instalação-passo-a-passo"><img src="https://img.shields.io/badge/npx_github%3Aspyko--app%2Fvibe100coding--kit-init-0a84ff?style=for-the-badge&logo=npm&logoColor=white" alt="npx github:Mateusfb-ai/vibe100coding-kit init"></a>
   &nbsp;
-  <a href="https://github.com/spyko-app/vibe100coding-kit/archive/refs/heads/main.zip"><img src="https://img.shields.io/badge/Download-.zip-333?style=for-the-badge&logo=github&logoColor=white" alt="Download zip"></a>
+  <a href="https://github.com/Mateusfb-ai/vibe100coding-kit/archive/refs/heads/main.zip"><img src="https://img.shields.io/badge/Download-.zip-333?style=for-the-badge&logo=github&logoColor=white" alt="Download zip"></a>
 </p>
 
 ## 🔁 O ciclo de trabalho
@@ -81,13 +81,13 @@ Cada etapa existe por causa de um defeito real. A lista, etapa por etapa, está 
 
 ```bash
 cd meu-projeto
-npx github:spyko-app/vibe100coding-kit init
+npx github:Mateusfb-ai/vibe100coding-kit init
 ```
 
 Ou clonando:
 
 ```bash
-git clone https://github.com/spyko-app/vibe100coding-kit.git /tmp/vibekit
+git clone https://github.com/Mateusfb-ai/vibe100coding-kit.git /tmp/vibekit
 node /tmp/vibekit/bin/vibekit.mjs init .
 ```
 
@@ -116,7 +116,7 @@ Os templates vêm com `<marcadores>`. Preencha contexto, comandos e a tabela "er
 ```bash
 npm run meta-gate     # cada gate fica vermelho com o defeito injetado
 npm run gates         # todos verdes
-npx github:spyko-app/vibe100coding-kit doctor
+npx github:Mateusfb-ai/vibe100coding-kit doctor
 ```
 
 ### 5. Commite o kit e abra a primeira tarefa
