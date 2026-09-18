@@ -14,7 +14,7 @@
 // já serializa o push; a fila corta o desperdício de N suítes rodando juntas
 // para N-1 serem jogadas fora.
 import { spawnSync } from "node:child_process";
-import { mkdirSync, readdirSync, readFileSync, rmSync, writeFileSync, existsSync } from "node:fs";
+import { mkdirSync, readdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import path from "node:path";
 import { git, gitQuieto, config } from "./_git.mjs";
 

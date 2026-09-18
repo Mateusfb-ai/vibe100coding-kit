@@ -158,10 +158,13 @@ if (!semInstall && existsSync(path.join(destino, "package.json"))) {
 }
 
 // --- 6. a janela -------------------------------------------------------------
-const temCode = spawnSync("command", ["-v", "code"], { shell: true, stdio: "ignore" }).status === 0;
+// Tenta abrir e deixa o próprio spawn responder se o `code` existe. Perguntar
+// antes com `command -v` exigia `shell: true`, que o Node avisa ser caminho de
+// injeção -- e a resposta seria a mesma, um processo depois.
 let abriu = false;
-if (!semCode && temCode) {
-  abriu = spawnSync("code", [destino], { stdio: "ignore" }).status === 0;
+if (!semCode) {
+  const r = spawnSync("code", [destino], { stdio: "ignore" });
+  abriu = !r.error && r.status === 0;
 }
 
 console.log("");
