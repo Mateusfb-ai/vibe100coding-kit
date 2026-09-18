@@ -8,7 +8,7 @@ import { RAIZ, config, listar, reprovar } from "./_arquivos.mjs";
 
 const pastas = [...(config().pastasDeTexto || config().pastasLimpas || ["src"]), "scripts/gates/_fixtures/texto"];
 const problemas = [];
-for (const arq of listar(pastas, [".ts", ".tsx", ".js", ".jsx", ".json", ".swift", ".html", ".vue", ".svelte"])) {
+for (const arq of listar(pastas, [".ts", ".tsx", ".js", ".jsx", ".json", ".md", ".mdx", ".swift", ".html", ".vue", ".svelte"])) {
   readFileSync(arq, "utf8").split("\n").forEach((l, i) => {
     if (/[—–]/.test(l)) problemas.push(`${path.relative(RAIZ, arq)}:${i + 1} travessão`);
   });
