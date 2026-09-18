@@ -18,7 +18,7 @@ export const MUTACOES = [
   },
   {
     gate: "node scripts/gates/sem-travessao.mjs",
-    arquivo: "scripts/gates/_fixtures/textos.json",
+    arquivo: "scripts/gates/_fixtures/texto/textos.json",
     de: "\"Salvo. Tudo certo por aqui.\"",
     para: "\"Salvo — tudo certo por aqui.\"",
   },
