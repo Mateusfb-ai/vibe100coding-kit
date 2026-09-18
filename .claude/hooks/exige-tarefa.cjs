@@ -25,7 +25,7 @@
 // absoluto. Fora do repositório (scratchpad, /tmp) não é trabalho do produto.
 const path = require('node:path');
 const fs = require('node:fs');
-const { lerEntrada, git, lerConfig } = require('./_kit.cjs');
+const { lerEntrada, git, lerConfig, caminhoReal } = require('./_kit.cjs');
 
 const entrada = lerEntrada();
 const alvo = entrada.tool_input && entrada.tool_input.file_path;
@@ -42,10 +42,10 @@ function recusar(motivo) {
   process.exit(0);
 }
 
-const raiz = git(cwd, 'rev-parse', '--show-toplevel');
+const raiz = caminhoReal(git(cwd, 'rev-parse', '--show-toplevel'));
 if (!raiz) liberar();
 if (alvo) {
-  const abs = path.resolve(cwd, alvo);
+  const abs = caminhoReal(path.resolve(cwd, alvo));
   if (abs !== raiz && !abs.startsWith(raiz + path.sep)) liberar();
 }
 

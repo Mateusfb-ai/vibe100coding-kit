@@ -17,12 +17,14 @@
   ],
   "scripts": {
     "sessao": "node scripts/sessao.mjs",
+    "porta": "node scripts/porta.mjs",
     "tarefa": "node scripts/tarefa.mjs",
     "integrar": "node scripts/integrar.mjs",
     "gates": "node scripts/rodar-gates.mjs",
     "gate:sem-comentario": "node scripts/gates/sem-comentario.mjs",
     "gate:sem-travessao": "node scripts/gates/sem-travessao.mjs",
     "gate:lista-de-gates": "node scripts/gates/lista-de-gates.mjs",
+    "gate:sessao-abre-arvore": "node scripts/gates/sessao-abre-arvore.mjs",
     "meta-gate": "node scripts/meta-gate.mjs",
     "test": "node scripts/meta-gate.mjs && node scripts/rodar-gates.mjs"
   },

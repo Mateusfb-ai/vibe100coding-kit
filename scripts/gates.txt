@@ -2,3 +2,4 @@
 node scripts/gates/sem-comentario.mjs
 node scripts/gates/sem-travessao.mjs
 node scripts/gates/lista-de-gates.mjs
+node scripts/gates/sessao-abre-arvore.mjs

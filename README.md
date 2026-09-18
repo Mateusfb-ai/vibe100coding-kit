@@ -19,7 +19,7 @@ Quatro fases num ciclo que se fecha sozinho: **abrir → construir → provar �
 ```mermaid
 flowchart TB
     subgraph ABRIR["① Abrir"]
-        S["🚪 sessao / tarefa abrir<br/>worktree próprio, branch marcada ABERTA"]
+        S["🚪 sessao / tarefa abrir<br/>worktree, porta, .env, deps, escopo"]
     end
     subgraph CONSTRUIR["② Construir"]
         B["🧠 /brainstorming<br/>uma pergunta por vez"] --> P["🗒️ /writing-plans<br/>spec com 'pronto' checável"] --> I["⚙️ /subagent-driven-development<br/>ondas paralelas, arquivos disjuntos"]
@@ -61,7 +61,8 @@ Cada etapa existe por causa de um defeito real. A lista, etapa por etapa, está 
 | Peça | Arquivo | O que impõe |
 |---|---|---|
 | **4 hooks** | `.claude/hooks/*.cjs` | regras da sessão + aviso de árvore velha e de diretório compartilhado · roteamento prompt → skill · **recusa edição na `main`, com HEAD solto, com tarefa concluída ou com mutação de gate em voo** · lembrete de integrar quando há commits parados |
-| **Ciclo de tarefa** | `scripts/sessao.mjs`, `tarefa.mjs` | worktree por sessão, marca explícita `aberta / concluida` na branch |
+| **Ciclo de tarefa** | `scripts/sessao.mjs`, `porta.mjs`, `tarefa.mjs` | um comando abre a árvore inteira: worktree, porta reservada, `.env` ligado, `npm install`, VS Code |
+| **Território por sessão** | `.claude/hooks/escopo-da-sessao.cjs` | duas sessões abertas não editam o mesmo arquivo em branches diferentes |
 | **Integração** | `scripts/integrar.mjs` | fila FIFO por máquina → fetch → rebase → gates **sobre a base nova** → push; conflito aborta e devolve |
 | **Gates** | `scripts/rodar-gates.mjs`, `gates.txt`, `gates/` | todos rodam, em paralelo, acumulando falhas; 3 gates de exemplo (sem comentário no código, sem travessão em texto exibido, lista íntegra) |
 | **Meta-gate** | `scripts/meta-gate.mjs`, `mutacoes.mjs` | cobertura por contagem, âncora viva, injeção do defeito real: gate que nunca ficou vermelho não provou nada |
@@ -91,7 +92,7 @@ git clone https://github.com/Mateusfb-ai/vibe100coding-kit.git /tmp/vibekit
 node /tmp/vibekit/bin/vibekit.mjs init .
 ```
 
-O `init` copia hooks, regras, skills, scripts e templates **só onde não existe nada** (um `.claude/` afinado por meses fica intacto), mescla os hooks em `.claude/settings.json` e adiciona os scripts `sessao`, `tarefa`, `gates`, `meta-gate`, `integrar` ao `package.json`.
+O `init` copia hooks, regras, skills, scripts e templates **só onde não existe nada** (um `.claude/` afinado por meses fica intacto), mescla os hooks em `.claude/settings.json` e adiciona os scripts `sessao`, `porta`, `tarefa`, `gates`, `meta-gate`, `integrar` ao `package.json`.
 
 ### 2. Descreva o projeto em `kit.json`
 
@@ -123,7 +124,7 @@ npx github:Mateusfb-ai/vibe100coding-kit doctor
 
 ```bash
 git add -A && git commit -m "chore: instala o vibe100coding-kit"
-npm run sessao -- feature/primeira-tarefa     # worktree + branch marcada como ABERTA
+npm run sessao -- feature/primeira-tarefa     # worktree + porta + .env + npm install + VS Code
 # ou, sozinho no repo: npm run tarefa -- abrir feature/primeira-tarefa
 ```
 

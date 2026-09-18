@@ -51,7 +51,7 @@ function mesclarPackage() {
   try { pkg = JSON.parse(readFileSync(alvo, "utf8")); } catch { /* novo */ }
   pkg.scripts = pkg.scripts || {};
   const meus = JSON.parse(readFileSync(path.join(KIT, "package.json"), "utf8")).scripts;
-  for (const nome of ["sessao", "tarefa", "integrar", "gates", "gate:sem-comentario", "gate:sem-travessao", "gate:lista-de-gates", "meta-gate"]) {
+  for (const nome of ["sessao", "tarefa", "integrar", "gates", "porta", "gate:sem-comentario", "gate:sem-travessao", "gate:lista-de-gates", "meta-gate"]) {
     if (!pkg.scripts[nome]) pkg.scripts[nome] = meus[nome];
   }
   writeFileSync(alvo, JSON.stringify(pkg, null, 2) + "\n");
@@ -80,9 +80,12 @@ if (acao === "init") {
     [".claude/hooks/session-rules.cjs", "hook SessionStart"],
     [".claude/hooks/skill-suggest.cjs", "hook UserPromptSubmit"],
     [".claude/hooks/exige-tarefa.cjs", "hook PreToolUse"],
+    [".claude/hooks/escopo-da-sessao.cjs", "hook PreToolUse (território por escopo)"],
     [".claude/hooks/fim-de-tarefa.cjs", "hook Stop"],
     [".claude/settings.json", "hooks registrados"],
     [".claude/rules/ondas-paralelas.md", "regra de ondas"],
+    ["scripts/sessao.mjs", "árvore de trabalho por comando"],
+    ["scripts/porta.mjs", "porta reservada por árvore"],
     ["scripts/tarefa.mjs", "ciclo de tarefa"],
     ["scripts/integrar.mjs", "integração com rebase antes"],
     ["scripts/rodar-gates.mjs", "runner de gates"],

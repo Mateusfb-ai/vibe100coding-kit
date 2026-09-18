@@ -45,4 +45,21 @@ function lerConfig(cwd) {
   return padrao;
 }
 
-module.exports = { lerEntrada, git, lerConfig };
+// Caminho real, com os symlinks resolvidos. `/tmp` e `/var` são symlink no
+// macOS, e `git rev-parse --show-toplevel` sempre responde o caminho REAL. Sem
+// resolver os dois lados, `abs.startsWith(raiz)` dá falso para todo arquivo sob
+// um caminho ligado, o hook conclui "fora do repositório" e LIBERA — calado.
+// Medido em 2026-09-18: o hook de escopo liberava 100% das recusas num
+// repositório sob `/var/folders/...`.
+//
+// Resolve o DIRETÓRIO e recola o nome: `realpathSync` do arquivo estoura quando
+// ele ainda não existe, que é exatamente o caso de todo `Write` novo.
+function caminhoReal(p) {
+  // String vazia entra quando o `git` falhou. Sem esta linha ela viraria o cwd
+  // (`dirname('')` é `.`), e quem chama leria isso como "achei a raiz".
+  if (!p) return p;
+  const dir = path.dirname(p);
+  try { return path.join(fs.realpathSync(dir), path.basename(p)); } catch { return p; }
+}
+
+module.exports = { lerEntrada, git, lerConfig, caminhoReal };

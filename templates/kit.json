@@ -8,13 +8,41 @@
     "gates": "npm run gates",
     "integrar": "npm run integrar"
   },
-  "fontesDaVerdade": ["CLAUDE.md", "docs/REGRA.md", "docs/CEREBRO-AGENTE.md", "learnings/"],
+  "fontesDaVerdade": [
+    "CLAUDE.md",
+    "docs/REGRA.md",
+    "docs/CEREBRO-AGENTE.md",
+    "learnings/"
+  ],
   "regras": [
     "O QUE É: descreva o produto em uma frase (o que faz e o que NÃO faz).",
     "SEGURANÇA: os mínimos que bloqueiam publicação neste projeto."
   ],
   "skills": [
-    { "regex": "\\b(deploy|publicar em produ[çc][aã]o)\\b", "msg": "Antes de publicar: rode os gates e a régua de segurança do projeto." }
+    {
+      "regex": "\\b(deploy|publicar em produ[çc][aã]o)\\b",
+      "msg": "Antes de publicar: rode os gates e a régua de segurança do projeto."
+    }
   ],
-  "pastasLimpas": ["src"]
+  "pastasLimpas": [
+    "src"
+  ],
+  "arquivosDoAmbiente": [
+    ".env.local",
+    ".env"
+  ],
+  "escopos": {
+    "backend": [
+      "src/server/",
+      "src/api/"
+    ],
+    "frontend": [
+      "src/app/",
+      "src/components/"
+    ],
+    "conteudo": [
+      "content/",
+      "messages/"
+    ]
+  }
 }

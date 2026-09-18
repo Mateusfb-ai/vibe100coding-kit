@@ -28,4 +28,41 @@ export const MUTACOES = [
     de: "node scripts/gates/sem-travessao.mjs\n",
     para: "",
   },
+  // Os quatro defeitos que ESTE gate viu de perto. Os três primeiros já
+  // aconteceram em código rodando; o quarto é o que faz o painel ter território
+  // próprio dentro de `app/`.
+  {
+    // O hook comparava caminho não resolvido com o `--show-toplevel` do git, que
+    // vem resolvido. Sob `/tmp` ou `/var` (symlink no macOS) nada batia, e ele
+    // concluía "fora do repositório" — liberando 100% das recusas, em silêncio.
+    gate: "node scripts/gates/sessao-abre-arvore.mjs",
+    arquivo: ".claude/hooks/escopo-da-sessao.cjs",
+    de: "const abs = caminhoReal(path.resolve(alvo));",
+    para: "const abs = path.resolve(alvo);",
+  },
+  {
+    // Sem `--git-common-dir`, rodar o comando de dentro de um worktree criava
+    // outro worktree ANINHADO dentro dele, e o caminho impresso saía errado.
+    gate: "node scripts/gates/sessao-abre-arvore.mjs",
+    arquivo: "scripts/sessao.mjs",
+    de: "const raiz = raizDoRepo();",
+    para: "const raiz = process.cwd();",
+  },
+  {
+    // Só o teste de socket não basta: duas árvores abertas em seguida, com
+    // nenhum servidor no ar, recebiam a MESMA porta.
+    gate: "node scripts/gates/sessao-abre-arvore.mjs",
+    arquivo: "scripts/sessao.mjs",
+    de: "  if (reservadas.has(String(p))) continue;\n",
+    para: "",
+  },
+  {
+    // Inverte a regra: o prefixo mais CURTO passa a vencer. O `app/` do escopo
+    // `site` engole `app/[locale]/painel/`, e o painel deixa de ter território
+    // próprio dentro de `app/` -- fica recusado de editar a própria pasta.
+    gate: "node scripts/gates/sessao-abre-arvore.mjs",
+    arquivo: ".claude/hooks/escopo-da-sessao.cjs",
+    de: "const peso = prefixo.replace(/\\/+$/, '').length;",
+    para: "const peso = 1000 - prefixo.replace(/\\/+$/, '').length;",
+  },
 ];
