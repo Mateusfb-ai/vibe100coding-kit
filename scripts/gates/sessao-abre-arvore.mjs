@@ -84,6 +84,22 @@ try {
   confere("rodar de dentro de um worktree não criou a árvore na raiz", existsSync(path.join(principal, ".claude/worktrees/de-dentro")));
   confere("rodar de dentro criou uma árvore ANINHADA", !existsSync(path.join(arvore, ".claude/worktrees/de-dentro")));
 
+  // ── 3b. reabrir a MESMA branch devolve a MESMA porta ──
+  // A reserva da própria branch entrava no conjunto de "ocupadas": fechar e
+  // reabrir a árvore gravava outra porta por cima, queimando uma por ciclo.
+  git(principal, "worktree", "remove", "--force", arvore);
+  sessao(principal, "feature/painel", "--painel");
+  confere(`reabrir trocou a porta (era ${porta1}, virou ${git(principal, "config", "branch.feature/painel.porta")})`,
+    git(principal, "config", "branch.feature/painel.porta") === porta1);
+
+  // ── 3c. dois tipos com o mesmo nome não disputam a pasta calados ──
+  // `feature/painel` e `fix/painel` querem `.claude/worktrees/painel`. A versão
+  // antiga dizia "já existe", saía com 0, não criava a branch, e mandava a
+  // sessão para uma árvore checada na OUTRA branch.
+  const colisao = sessao(principal, "fix/painel", "--painel");
+  confere("aceitou fix/painel na pasta de feature/painel", colisao.status !== 0);
+  confere("criou a branch fix/painel mesmo assim", git(principal, "rev-parse", "--verify", "--quiet", "refs/heads/fix/painel") === "");
+
   // ── 4. nome e escopo inválidos são recusados ──
   for (const [oque, args] of [["tipo inválido", ["banana/x"]], ["nome sem barra", ["feature"]], ["escopo inexistente", ["feature/z", "--marte"]], ["dois escopos", ["feature/z", "--site", "--painel"]]]) {
     confere(`aceitou ${oque}`, sessao(principal, ...args).status !== 0);
@@ -113,6 +129,16 @@ try {
     confere(`${oque}: esperado ${esperado}, veio ${veio}`, veio === esperado);
   }
   confere("hook não liberou arquivo fora do repositório", hook(arvore, "../../../../../fora.txt").includes('"allow"'));
+
+  // ── 6. NotebookEdit manda `notebook_path`, não `file_path` ──
+  // O hook está registrado para a ferramenta; lendo só `file_path`, o alvo vinha
+  // `undefined` e a guarda liberava. Estar no matcher não é cobrir.
+  const hookNotebook = (cwd, arquivo) => spawnSync(process.execPath, [path.join(principal, ".claude/hooks/escopo-da-sessao.cjs")],
+    { input: JSON.stringify({ tool_input: { notebook_path: path.join(cwd, arquivo) }, cwd }), encoding: "utf8" }).stdout || "";
+  confere("NotebookEdit no território do site passou batido pelo escopo painel",
+    hookNotebook(arvore, "app/analise.ipynb").includes('"deny"'));
+  confere("NotebookEdit no próprio território foi recusado",
+    hookNotebook(arvore, "app/api/painel/analise.ipynb").includes('"allow"'));
 } finally {
   rmSync(lab, { recursive: true, force: true });
 }

@@ -63,9 +63,21 @@ if (escopo && !escopos[escopo]) {
 const nome = tarefa.split("/")[1];
 const destino = path.join(raiz, ".claude", "worktrees", nome);
 
-// Repetir o comando é o jeito natural de perguntar "onde ficou mesmo?". Sair
-// com erro puniria a pergunta, então isto responde e sai bem.
+// A pasta é nomeada só pela parte depois da barra, porque é assim que se fala
+// dela ("a árvore do painel"). Mas `feature/alpha` e `fix/alpha` querem a MESMA
+// pasta, e a primeira versão respondia "já existe" e mandava a sessão para uma
+// árvore checada em OUTRA branch, sem criar a branch pedida e saindo com 0.
 if (existsSync(destino)) {
+  const branchDeLa = gitQuieto(destino, "rev-parse", "--abbrev-ref", "HEAD");
+  if (branchDeLa && branchDeLa !== tarefa) {
+    console.error(`A pasta .claude/worktrees/${nome} já é da branch \`${branchDeLa}\`, não de \`${tarefa}\`.`);
+    console.error("");
+    console.error("Duas tarefas com o mesmo nome depois da barra disputam a mesma pasta.");
+    console.error(`Escolha outro nome, ou feche a outra:  git worktree remove ${destino}`);
+    process.exit(1);
+  }
+  // Repetir o comando é o jeito natural de perguntar "onde ficou mesmo?". Sair
+  // com erro puniria a pergunta, então isto responde e sai bem.
   const portaAntiga = gitQuieto(raiz, "config", `branch.${tarefa}.porta`);
   console.log("Esta árvore já existe.");
   console.log(`\n  cd "${destino}"${portaAntiga ? `   (porta ${portaAntiga})` : ""}\n`);
@@ -94,6 +106,11 @@ console.log(`[sessao] worktree em .claude/worktrees/${nome} (branch \`${tarefa}\
 // Os dois testes são necessários e nenhum basta sozinho: só o git config não vê
 // o servidor de OUTRO projeto na 3001; só o teste de socket entrega a mesma
 // porta a duas árvores que ainda não subiram.
+// A reserva DESTA branch vence a busca: quando a branch já existe (a árvore foi
+// fechada e reaberta), ela recebe a porta de volta em vez de procurar outra.
+// Sem isso o comando pulava a própria porta por achá-la ocupada, gravava outra
+// por cima, e "reabre sempre na mesma" queimava uma porta por ciclo.
+const minha = gitQuieto(raiz, "config", `branch.${tarefa}.porta`);
 const reservadas = new Set(
   gitQuieto(raiz, "config", "--get-regexp", "^branch\\..*\\.porta$")
     .split("\n").map((l) => l.trim().split(/\s+/)[1]).filter(Boolean),
@@ -105,8 +122,8 @@ const livre = (porta) => new Promise((responder) => {
   servidor.listen(porta, "127.0.0.1");
 });
 
-let porta = null;
-for (let p = PORTA_INICIAL; p <= PORTA_FINAL; p++) {
+let porta = minha || null;
+for (let p = PORTA_INICIAL; !porta && p <= PORTA_FINAL; p++) {
   if (reservadas.has(String(p))) continue;
   if (await livre(p)) { porta = p; break; }
 }

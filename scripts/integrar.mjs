@@ -75,7 +75,16 @@ for (let vez = 1; vez <= TENTATIVAS; vez++) {
 
   const push = spawnSync("git", ["push", "origin", `${branch}:${principal}`], { cwd, encoding: "utf8" });
   if (push.status === 0) {
-    gitQuieto(cwd, "push", "origin", branch, "--quiet");
+    // Depois do rebase a branch reescreveu história, e um push normal é
+    // rejeitado por non-fast-forward. `gitQuieto` engolia a rejeição: a
+    // principal andava e `origin/<branch>` guardava os SHAs de ANTES do rebase,
+    // para sempre, sem uma linha de aviso. `--force-with-lease` reescreve só se
+    // ninguém tiver empurrado por cima enquanto isso.
+    const espelho = spawnSync("git", ["push", "--force-with-lease", "origin", branch], { cwd, encoding: "utf8" });
+    if (espelho.status !== 0) {
+      console.log(`[integrar] a ${principal} recebeu, mas origin/${branch} NÃO foi atualizada:`);
+      console.log(`  ${(espelho.stderr || espelho.stdout || "").trim().split("\n").slice(-3).join("\n  ")}`);
+    }
     console.log(`\n[integrar] publicado na ${principal}: ${git(cwd, "rev-parse", "--short", "HEAD")}`);
     console.log("Push aceito não é deploy feito: confira o alias/ambiente. Depois: npm run tarefa -- concluir");
     process.exit(0);

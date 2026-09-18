@@ -28,7 +28,11 @@ const fs = require('node:fs');
 const { lerEntrada, git, lerConfig, caminhoReal } = require('./_kit.cjs');
 
 const entrada = lerEntrada();
-const alvo = entrada.tool_input && entrada.tool_input.file_path;
+// `NotebookEdit` manda `notebook_path`, não `file_path`. Lendo só um, o hook
+// fica registrado para a ferramenta e nunca decide sobre ela: o alvo vem
+// `undefined` e a guarda libera. Estar na lista do matcher não é cobrir.
+const ti = entrada.tool_input || {};
+const alvo = ti.file_path || ti.notebook_path;
 const base = alvo ? path.dirname(path.resolve(alvo)) : (entrada.cwd || process.cwd());
 const cwd = fs.existsSync(base) ? base : (entrada.cwd || process.cwd());
 const cfg = lerConfig(cwd);

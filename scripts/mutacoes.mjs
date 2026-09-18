@@ -65,4 +65,29 @@ export const MUTACOES = [
     de: "const peso = prefixo.replace(/\\/+$/, '').length;",
     para: "const peso = 1000 - prefixo.replace(/\\/+$/, '').length;",
   },
+  {
+    // A reserva da própria branch voltando a contar como ocupada: reabrir a
+    // árvore grava outra porta por cima, e "reabre sempre na mesma" vira mentira.
+    gate: "node scripts/gates/sessao-abre-arvore.mjs",
+    arquivo: "scripts/sessao.mjs",
+    de: "let porta = minha || null;",
+    para: "let porta = null;",
+  },
+  {
+    // `NotebookEdit` manda `notebook_path`. Lendo só `file_path`, o hook fica
+    // registrado para a ferramenta e nunca decide sobre ela: libera sempre.
+    gate: "node scripts/gates/sessao-abre-arvore.mjs",
+    arquivo: ".claude/hooks/escopo-da-sessao.cjs",
+    de: "const alvo = ti.file_path || ti.notebook_path;",
+    para: "const alvo = ti.file_path;",
+  },
+  {
+    // Sem a conferência da branch, `fix/painel` reaproveita a pasta de
+    // `feature/painel`: diz "já existe", sai com 0, não cria a branch pedida, e
+    // manda a sessão trabalhar na branch errada.
+    gate: "node scripts/gates/sessao-abre-arvore.mjs",
+    arquivo: "scripts/sessao.mjs",
+    de: "if (branchDeLa && branchDeLa !== tarefa) {",
+    para: "if (false) {",
+  },
 ];

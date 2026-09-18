@@ -24,8 +24,14 @@ if (acao === "abrir") {
   console.log(`Tarefa \`${nome}\` ABERTA a partir de origin/${cfg.branchPrincipal}.`);
 } else if (acao === "concluir") {
   if (atual === cfg.branchPrincipal || atual === "HEAD") { console.error(`Você está em \`${atual}\`; concluir é sobre uma branch de tarefa.`); process.exit(1); }
+  // `gitQuieto` devolve "" quando o comando FALHA (origin/<principal> ausente,
+  // por exemplo). "" é falsy e passava direto pela guarda: a branch era marcada
+  // `concluida` sem ter sido integrada, e a partir daí o `exige-tarefa` recusava
+  // toda edição nela. Não saber quantos commits faltam não é saber que faltam
+  // zero.
   const fora = gitQuieto(cwd, "rev-list", "--count", `origin/${cfg.branchPrincipal}..${atual}`);
-  if (fora && fora !== "0") { console.error(`\`${atual}\` ainda tem ${fora} commit(s) fora da ${cfg.branchPrincipal}. Integre antes (npm run integrar).`); process.exit(1); }
+  if (!fora) { console.error(`Não consegui contar os commits fora da ${cfg.branchPrincipal} (origin/${cfg.branchPrincipal} existe?). Não vou marcar como concluída no escuro.`); process.exit(1); }
+  if (fora !== "0") { console.error(`\`${atual}\` ainda tem ${fora} commit(s) fora da ${cfg.branchPrincipal}. Integre antes (npm run integrar).`); process.exit(1); }
   git(cwd, "config", `branch.${atual}.${cfg.marca}`, "concluida");
   console.log(`Tarefa \`${atual}\` CONCLUÍDA. Próxima tarefa: npm run tarefa -- abrir <tipo>/<nome>`);
 } else {
